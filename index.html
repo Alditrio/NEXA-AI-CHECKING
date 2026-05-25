@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXA AI | OJK Online Gambling Enforcement Platform</title>
+  <meta name="description" content="Platform AI deteksi dan penegakan hukum perjudian online berbasis Supabase — Otoritas Jasa Keuangan Republik Indonesia." />
+
+  <!-- Google Fonts & Material Symbols (kept for essential UI only) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- Sleek Tech Backgrounds -->
+<div id="bg-grid"></div>
+<div id="bg-blob"></div>
+
+<!-- ═══════════════════════════════════════════
+     HEADER / TOPBAR
+     ═══════════════════════════════════════════ -->
+<header id="header">
+  <div class="header-left">
+    <div class="brand-icon">N</div>
+    <span class="brand-name">NEXA AI</span>
+    <span class="brand-badge">OJK Portal</span>
+  </div>
+
+  <div class="header-mid">
+    <span class="pulse-dot"></span>
+    SISTEM ENFORCEMENT AKTIF &nbsp;·&nbsp; SECURE PIPELINE ONLINE
+  </div>
+
+  <div class="header-right">
+    <span class="header-clock" id="live-clock">--:--:-- WIB</span>
+
+    <div class="user-chip">
+      <div class="user-av">OJK</div>
+      <div style="display:flex;flex-direction:column;line-height:1.2;">
+        <span class="user-name">OJK Authority</span>
+        <span class="user-role">Superintendent</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     SIDEBAR NAVIGATION (RESTRUCTURED)
+     ═══════════════════════════════════════════ -->
+<aside id="sidebar">
+  <div class="nav-section">
+    <div class="nav-section-label">Pemantauan Makro</div>
+    <div class="nav-item active" data-page="dashboard">
+      <span class="nav-label">Dashboard Utama</span>
+    </div>
+  </div>
+
+  <div class="nav-sep"></div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Ruang Eksekusi</div>
+    <div class="nav-item" data-page="enforcement">
+      <span class="nav-label">Tracer &amp; Enforcement</span>
+      <span class="nav-count">GNN</span>
+    </div>
+  </div>
+
+  <div class="nav-sep"></div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Sistem &amp; Integrasi</div>
+    <div class="nav-item" data-page="pipeline">
+      <span class="nav-label">API &amp; DB Pipeline</span>
+      <span class="nav-count ok">OK</span>
+    </div>
+  </div>
+
+  <div class="nav-sep"></div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Manajemen Sistem</div>
+    <div class="nav-item" data-page="admins">
+      <span class="nav-label">Manajemen Admin</span>
+    </div>
+    <div class="nav-item" data-page="dataset">
+      <span class="nav-label">Dataset Manager</span>
+      <span class="nav-count ok">GEN</span>
+    </div>
+  </div>
+
+  <div class="sidebar-foot">
+    <div class="db-indicator">
+      <div class="db-ind-top">
+        <span class="db-ind-dot"></span>
+        <span class="db-ind-label">mTLS Secured</span>
+      </div>
+      <div class="db-ind-detail">TLS 1.3 · Core Banking</div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════════════════════════════════════════
+     MAIN APP CONTAINER
+     ═══════════════════════════════════════════ -->
+<main id="main">
+
+  <!-- ┌─────────────────────────────────────────┐
+       │  MENU 1: DASHBOARD UTAMA (MACRO)        │
+       └─────────────────────────────────────────┘ -->
+  <section id="page-dashboard" class="page">
+    <div class="pg-head">
+      <div>
+        <div class="pg-eyebrow"><span class="pulse-dot"></span> Macro Analytics</div>
+        <h1 class="pg-title">Dashboard Utama Penegakan Hukum</h1>
+        <p class="pg-sub">Statistik makro penyelamatan dana judi online nasional dan tren anomali cyber siber perbankan.</p>
+      </div>
+      <div class="pg-actions">
+        <!-- Simulasi Ingest Fraud Button (POST /api/v1/ingest-fraud) -->
+        <button class="btn btn-primary" onclick="triggerIngestFraudSimulation()">
+          Simulasi Ingest Fraud (Komdigi)
+        </button>
+      </div>
+    </div>
+
+    <!-- Macro Stats Row -->
+    <div class="stats-row" style="display:flex; flex-direction:column; gap:16px;">
+      <div class="stat">
+        <div class="stat-top">
+          <span class="stat-badge tag-green">Fund Saved</span>
+        </div>
+        <div class="stat-val" id="stat-flow">0</div>
+        <div class="stat-lbl">Total Dana Terselamatkan (Rp Miliar)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-top">
+          <span class="stat-badge tag-blue">Total Frozen</span>
+        </div>
+        <div class="stat-val" id="stat-blocked">0</div>
+        <div class="stat-lbl">Jumlah Rekening Diblokir Hari Ini</div>
+      </div>
+      <div class="stat">
+        <div class="stat-top">
+          <span class="stat-badge tag-amber">Performance</span>
+        </div>
+        <div class="stat-val" id="stat-suspected">42</div>
+        <div class="stat-lbl">Rata-rata Respon API (Milidetik)</div>
+      </div>
+    </div>
+
+    <!-- Analytics Chart & Live Feed -->
+    <div style="display:flex; flex-direction:column; gap:16px; margin-top:16px;">
+      <!-- Real-time Chart -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">
+            Aktivitas Mule Accounts Jaringan Siber (Prediksi Lonjakan GNN Per Jam)
+          </div>
+          <span class="tag tag-blue">Live Graph GNN</span>
+        </div>
+        <div class="card-body" style="height:350px; display:flex; flex-direction:column; justify-content:center; position:relative;">
+          <!-- SVG Line Chart container -->
+          <svg id="trend-chart" style="width:100%; height:300px; overflow:visible;"></svg>
+        </div>
+      </div>
+
+      <!-- Live Recent Feed -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">
+            Ingest Rekening Fraud
+          </div>
+          <span class="tag tag-muted">Live Queue</span>
+        </div>
+        <div class="card-body" style="padding-top:4px;">
+          <div id="detection-feed">
+            <div style="text-align:center;padding:40px 0;color:var(--t3);font-size:12px;">Memetakan antrean fraud...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ┌─────────────────────────────────────────┐
+       │  MENU 2: TRACER & ENFORCEMENT CENTER    │
+       │  (VERTICAL STACK, MAX ANALOGY)          │
+       └─────────────────────────────────────────┘ -->
+  <section id="page-enforcement" class="page">
+    <div class="pg-head">
+      <div>
+        <div class="pg-eyebrow"><span class="pulse-dot"></span> Enforcement Center</div>
+        <h1 class="pg-title">Ruang Eksekusi Penindakan</h1>
+        <p class="pg-sub">Inisiasi pemblokiran darurat, pelacakan NIK melalui Dukcapil, dan penutupan massal bank target.</p>
+      </div>
+      <div class="pg-actions">
+        <button class="btn btn-ghost" onclick="resetEnforcementPanel()">
+          Reset Kanvas
+        </button>
+      </div>
+    </div>
+
+    <!-- STACK: Vertical Flow Container -->
+    <div style="display:flex; flex-direction:column; gap:20px; margin-bottom:20px;">
+      
+      <!-- 1. Target Form -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">
+            Formulir Sasaran Siber
+          </div>
+          <span class="tag tag-red">GNN Target</span>
+        </div>
+        <div class="card-body">
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="form-group">
+              <label class="form-label" for="input-account">Nomor Rekening Target</label>
+              <input id="input-account" class="form-control form-input" type="text" placeholder="Contoh: 122000984532" value="122000984532" autocomplete="off" />
+              <span class="form-hint">Nomor rekening yang di-ingest dari laporan masyarakat.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="input-bank">Bank Asal / Institusi Target</label>
+              <input id="input-bank" class="form-control form-input" type="text" list="bank-options" placeholder="Ketik nama bank..." value="Bank Jago" autocomplete="off" />
+              <datalist id="bank-options">
+                <option value="Bank Jago (Kode: 542)"></option>
+                <option value="BCA (Kode: 014)"></option>
+                <option value="Bank Mandiri (Kode: 008)"></option>
+                <option value="BNI (Kode: 009)"></option>
+                <option value="BRI (Kode: 002)"></option>
+                <option value="CIMB Niaga (Kode: 022)"></option>
+              </datalist>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:12px;margin-top:10px;">
+              <div id="progress-wrap" class="progress-wrap" style="margin-bottom:4px;">
+                <div class="progress-top">
+                  <span class="progress-lbl">Eksekusi API Pipeline...</span>
+                  <span class="progress-pct" id="progress-pct">0%</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" id="progress-bar-fill"></div>
+                </div>
+              </div>
+
+              <button class="execute-btn" id="btn-execute" onclick="openAuthenticationModal()" style="height:68px;justify-content:center;">
+                <span style="display:flex;align-items:center;gap:8px;">
+                  <span style="font-size:12px;font-weight:700;">TRIGGER MASS TEMPORARY FREEZE</span>
+                </span>
+                <span class="execute-btn-sub">Keamanan Ganda: PIN Otoritas</span>
+              </button>
+            </div>
+          </div>
+          <!-- Hidden law reason dropdown for backward compatibility -->
+          <div style="display:none;"><select id="input-reason"><option selected>Judi Online</option></select></div>
+        </div>
+      </div>
+
+      <!-- 1b. Bulk Target Form -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">
+            Formulir Ingest Dataset Massal
+          </div>
+          <span class="tag tag-blue">Batch Process</span>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label" for="input-bulk">Upload / Paste Dataset (Format: Rekening, Bank)</label>
+            <input type="file" id="file-upload" accept=".csv, .txt" style="margin-bottom:12px;display:block;width:100%;font-size:11px;padding:6px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r1);color:var(--t2);" onchange="handleFileUpload(event)">
+            <textarea id="input-bulk" class="form-control form-input" style="height:100px;resize:vertical;font-family:'JetBrains Mono', monospace;font-size:11px;" placeholder="1234567890, Bank Jago&#10;0987654321, BCA" autocomplete="off"></textarea>
+          </div>
+          <button class="btn btn-primary" style="margin-top:12px;width:100%;justify-content:center;" onclick="processBulkDataset()">
+            Proses Dataset Massal
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. AI prediction parameters -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">
+            Prediksi Probabilitas AI (GNN)
+          </div>
+          <span class="tag tag-violet">GNN Engine</span>
+        </div>
+        <div class="card-body" style="display:flex; gap:32px; align-items:center; justify-content:center; padding:30px;">
+          <div style="text-align:center;">
+            <div class="ring-outer" id="conf-ring" style="--pct:0;width:120px;height:120px;margin:0 auto;">
+              <div class="ring-inner" style="width:96px;height:96px;">
+                <div class="ring-value" id="conf-val" style="font-size:24px;">—</div>
+                <div class="ring-label" style="font-size:9px;">GNN Match</div>
+              </div>
+            </div>
+          </div>
+          <div id="ai-meters" style="flex:1; display:flex; flex-direction:column; gap:10px; max-width: 500px;">
+            <div style="font-size:11px;color:var(--t3);text-align:center;padding:12px 0;">Mulai penindakan untuk memicu algoritma GNN.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Spacious Tracing Canvas Graph Visualizer -->
+      <div class="card" style="display:flex;flex-direction:column;height:550px;">
+        <div class="card-head">
+          <div class="card-title">
+            Kanvas Pelacakan Jaringan Mule (Nodes &amp; Edges)
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t3);">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;"></span> Target NIK
+            </div>
+            <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t3);">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block;"></span> Frozen Node
+            </div>
+            <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t3);">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span> Traced Node
+            </div>
+          </div>
+        </div>
+
+        <div class="viz-wrap" id="viz-area" style="flex:1;">
+          <div class="scan-line"></div>
+          <svg id="viz-svg"></svg>
+
+          <!-- Floating Info overlay chips -->
+          <div class="viz-overlay-chip" style="left:20px;top:20px;">
+            <div class="chip-label" style="color:var(--blue);">Resolusi Identitas</div>
+            <div class="chip-val" id="viz-nik-val" style="font-size:12px;">NIK: Unresolved</div>
+          </div>
+
+          <div class="viz-overlay-chip" style="right:20px;top:20px;">
+            <div class="chip-label" style="color:var(--red);">Dana Klaster Terdeteksi</div>
+            <div class="chip-val" id="viz-flow-val" style="font-size:12px;">Rp 0.00 Miliar</div>
+          </div>
+
+          <!-- Nodes (Icons removed for cleaner look, only letters/shapes remain) -->
+          <div class="node-wrap" id="node-main" style="left:50%;top:50%;">
+            <div class="node-circle nc-lg nc-red" style="font-weight:bold;color:white;font-family:'JetBrains Mono', monospace;font-size:16px;">
+              TX
+              <div class="nc-pulse"></div>
+            </div>
+            <div class="node-label">
+              <div class="nl-acct" id="viz-main-acct">122000984532</div>
+              <div class="nl-bank" id="viz-main-bank">Bank Jago · 542</div>
+              <div class="nl-status target">Target Utama</div>
+            </div>
+          </div>
+
+          <div class="node-wrap hidden" id="node-1" style="left:20%;top:50%;">
+            <div class="node-circle nc-md nc-blue" style="font-weight:bold;color:white;font-family:'JetBrains Mono', monospace;font-size:12px;">
+              N1
+              <div class="nc-pulse"></div>
+            </div>
+            <div class="node-label">
+              <div class="nl-acct">8830112244</div>
+              <div class="nl-bank">BCA · 014</div>
+              <div class="nl-status blocked">Diblokir (BCA)</div>
+            </div>
+          </div>
+
+          <div class="node-wrap hidden" id="node-2" style="left:80%;top:50%;">
+            <div class="node-circle nc-md nc-blue" style="font-weight:bold;color:white;font-family:'JetBrains Mono', monospace;font-size:12px;">
+              N2
+              <div class="nc-pulse"></div>
+            </div>
+            <div class="node-label">
+              <div class="nl-acct">1120098443</div>
+              <div class="nl-bank">BNI · 009</div>
+              <div class="nl-status blocked">Diblokir (BNI)</div>
+            </div>
+          </div>
+
+          <div class="node-wrap hidden" id="node-3" style="left:50%;top:18%;">
+            <div class="node-circle nc-sm nc-teal" style="font-weight:bold;color:white;font-family:'JetBrains Mono', monospace;font-size:10px;">
+              N3
+            </div>
+            <div class="node-label">
+              <div class="nl-acct">7741003312</div>
+              <div class="nl-bank">Mandiri · 008</div>
+              <div class="nl-status traced">Tersusuri</div>
+            </div>
+          </div>
+
+          <!-- Floating success compliance banner -->
+          <div id="success-overlay" class="success-banner">
+            <div class="success-inner">
+              <div style="flex:1;">
+                <div class="success-title" style="font-size:13px;letter-spacing:0.02em;">AUTO-FREEZE &amp; TRACING COMPLETED</div>
+                <div class="success-meta">
+                  Klaster Mule NIK terverifikasi &nbsp;·&nbsp;
+                  <span id="success-nodes">4 node</span> dibekukan &nbsp;·&nbsp;
+                  Dana: <span id="success-flow">Rp 3.7 Miliar</span>
+                </div>
+                <div style="margin-top:2px;">
+                  <span style="font-size:9px;color:var(--t3);">Report Compliance: </span>
+                  <span class="success-id" id="success-report-id"></span>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;flex-shrink:0;">
+                <button class="btn btn-primary" style="background:var(--blue);border-color:rgba(37,99,235,0.2);" onclick="downloadReport()">
+                  Unduh Berita Acara
+                </button>
+                <button class="btn btn-ghost" onclick="dismissBanner()">
+                  Tutup
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Viz footer metrics -->
+        <div style="padding:10px 18px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:var(--bg1);">
+          <div style="display:flex;gap:24px;">
+            <div style="text-align:center;">
+              <div style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--red);">1</div>
+              <div style="font-size:8px;color:var(--t3);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;">NIK Cluster</div>
+            </div>
+            <div style="width:1px;background:var(--border);"></div>
+            <div style="text-align:center;">
+              <div style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--blue);" id="viz-blocked">0</div>
+              <div style="font-size:8px;color:var(--t3);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;">BAPA Blocked</div>
+            </div>
+            <div style="width:1px;background:var(--border);"></div>
+            <div style="text-align:center;">
+              <div style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--green);" id="viz-secured">0</div>
+              <div style="font-size:8px;color:var(--t3);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;">Secured Nodes</div>
+            </div>
+          </div>
+          <div style="font-size:10px;color:var(--t3);">
+            Audit Time: <span id="viz-updated" style="font-family:'JetBrains Mono',monospace;color:var(--blue);font-weight:600;">--:--:--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Karakteristik Fraud Terdeteksi -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">
+            Karakteristik Fraud Terdeteksi
+          </div>
+        </div>
+        <div class="card-body" style="padding:16px 20px;">
+          <div id="pattern-list">
+            <div style="font-size:11px;color:var(--t3);text-align:center;padding:12px 0;">Belum ada pola anomali terdeteksi.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Terminal Output logs (Full width, Very tall) -->
+      <div class="card" style="height:450px;display:flex;flex-direction:column;background:#0f172a;border-color:#1e293b;">
+        <div class="card-head" style="background:#020617;border-bottom:1px solid #1e293b;">
+          <div class="card-title" style="color:#f8fafc;">
+            [root@ojk-cyber-gateway ~]# REAL-TIME LOG STREAM
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span class="pulse-dot" style="background:#22c55e;"></span>
+            <span style="font-size:10px;color:#22c55e;font-weight:600;font-family:'JetBrains Mono', monospace;">STREAMING</span>
+          </div>
+        </div>
+        <div class="terminal" id="terminal" style="flex:1;min-height:0;background:#0f172a;color:#cbd5e1;border:none;"></div>
+      </div>
+
+      <!-- 6. Pipeline encryption banner -->
+      <div class="card">
+        <div class="card-body" style="display:flex;justify-content:space-between;padding:12px 18px;font-size:11px;">
+          <div style="display:flex;gap:20px;">
+            <span style="color:var(--t3);">Skema API: <span style="color:var(--blue);font-weight:600;margin-left:4px;">mTLS Handshake</span></span>
+            <span style="color:var(--t3);">Protokol: <span style="color:var(--t1);font-weight:600;margin-left:4px;">TLS 1.3 · RSA 4096</span></span>
+          </div>
+          <span style="color:var(--t3);">OJK Gateway: <span style="color:var(--green);font-weight:600;margin-left:4px;">Authorized</span></span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ┌─────────────────────────────────────────┐
+       │  MENU 3: INTEGRASI & API PIPELINE       │
+       └─────────────────────────────────────────┘ -->
+  <section id="page-pipeline" class="page">
+    <div class="pg-head">
+      <div>
+        <div class="pg-eyebrow"><span class="pulse-dot"></span> Pipeline Integrator</div>
+        <h1 class="pg-title">Integrasi Jaringan &amp; API Pipeline</h1>
+        <p class="pg-sub">Kesehatan endpoint API eksternal nasional, koneksi mTLS core-banking, dan query log PostgreSQL.</p>
+      </div>
+      <div class="pg-actions">
+        <button class="btn btn-primary" onclick="pingAllApiPipelines()">
+          Ping Semua Pipeline
+        </button>
+      </div>
+    </div>
+
+    <!-- 2-column main pipeline interface -->
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      <!-- Status Badge Matrix -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">
+            Matrix Status API &amp; Gateway Core-Banking (mTLS)
+          </div>
+          <span class="tag tag-blue">API Health Matrix</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="data-tbl">
+            <thead>
+              <tr>
+                <th>Nama Endpoint Pipeline</th>
+                <th>Kategori</th>
+                <th>Status</th>
+                <th style="text-align:right;">Latency</th>
+              </tr>
+            </thead>
+            <tbody id="api-pipeline-tbody">
+              <tr>
+                <td style="font-weight:600;color:var(--t1);">API Ditjen Dukcapil (Identity resolution)</td>
+                <td>Dukcapil Registry</td>
+                <td><span class="tag tag-green">ONLINE</span></td>
+                <td class="mono" style="text-align:right;font-weight:600;color:var(--green);">18 ms</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;color:var(--t1);">API CekRekening.id (Kemenkomdigi Ingest)</td>
+                <td>Fraud Registry</td>
+                <td><span class="tag tag-green">ONLINE</span></td>
+                <td class="mono" style="text-align:right;font-weight:600;color:var(--green);">25 ms</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;color:var(--t1);">OJK GNN Cluster Engine (Graph neural net)</td>
+                <td>AI Model Cluster</td>
+                <td><span class="tag tag-green">ONLINE</span></td>
+                <td class="mono" style="text-align:right;font-weight:600;color:var(--green);">34 ms</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;color:var(--t1);">BCA Core-Banking Gateway (mTLS API)</td>
+                <td>Core-banking API</td>
+                <td><span class="tag tag-green">ONLINE</span></td>
+                <td class="mono" style="text-align:right;font-weight:600;color:var(--green);">41 ms</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;color:var(--t1);">Mandiri Core-Banking Gateway (mTLS API)</td>
+                <td>Core-banking API</td>
+                <td><span class="tag tag-green">ONLINE</span></td>
+                <td class="mono" style="text-align:right;font-weight:600;color:var(--green);">38 ms</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;color:var(--t1);">BNI Core-Banking Gateway (mTLS API)</td>
+                <td>Core-banking API</td>
+                <td><span class="tag tag-green">ONLINE</span></td>
+                <td class="mono" style="text-align:right;font-weight:600;color:var(--green);">42 ms</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;color:var(--t1);">BRI Core-Banking Gateway (mTLS API)</td>
+                <td>Core-banking API</td>
+                <td><span class="tag tag-green">ONLINE</span></td>
+                <td class="mono" style="text-align:right;font-weight:600;color:var(--green);">47 ms</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;color:var(--t1);">Bank Jago Core-Banking Gateway (mTLS API)</td>
+                <td>Core-banking API</td>
+                <td><span class="tag tag-green">ONLINE</span></td>
+                <td class="mono" style="text-align:right;font-weight:600;color:var(--green);">35 ms</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;color:var(--t1);">CIMB Niaga Core-Banking Gateway (mTLS API)</td>
+                <td>Core-banking API</td>
+                <td><span class="tag tag-green">ONLINE</span></td>
+                <td class="mono" style="text-align:right;font-weight:600;color:var(--green);">39 ms</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Database Logs Console -->
+      <div class="card" style="height:400px;display:flex;flex-direction:column;">
+        <div class="card-head">
+          <div class="card-title">
+            PostgreSQL Transaction Logs (DML Queries)
+          </div>
+          <div style="display:flex;gap:6px;">
+            <span class="tag tag-green">Insert</span>
+            <span class="tag tag-blue">Select</span>
+            <span class="tag tag-amber">Update</span>
+          </div>
+        </div>
+        <div class="db-log" id="db-query-log" style="flex:1;min-height:0;overflow-y:auto;">
+          <div style="padding:40px 0;text-align:center;font-size:11px;color:var(--t3);">Live query SQL akan tampil otomatis di sini saat api pemblokiran ditembakkan.</div>
+        </div>
+      </div>
+      
+      <!-- Database Schema documentation -->
+      <div>
+        <div style="font-size:10px;font-weight:700;color:var(--t3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">Relational Tables Schema</div>
+        <div id="schema-tables"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ┌─────────────────────────────────────────┐
+       │  MENU 4: MANAJEMEN ADMIN (NEW)          │
+       └─────────────────────────────────────────┘ -->
+  <section id="page-admins" class="page">
+    <div class="pg-head">
+      <div>
+        <div class="pg-eyebrow"><span class="pulse-dot"></span> System Access</div>
+        <h1 class="pg-title">Manajemen Akun Administrator</h1>
+        <p class="pg-sub">Registrasi operator baru dan manajemen kredensial PIN otorisasi mTLS nasional.</p>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      <!-- Add New Admin Form -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">
+            Tambah Administrator Baru
+          </div>
+        </div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:12px;">
+          <div class="form-group">
+            <label class="form-label" for="adm-name">Nama Lengkap</label>
+            <input id="adm-name" class="form-input" type="text" placeholder="Contoh: Hendra Wijaya" autocomplete="off" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="adm-agency">Instansi Pemerintahan</label>
+            <select id="adm-agency" class="form-input">
+              <option value="OJK">Otoritas Jasa Keuangan (OJK)</option>
+              <option value="Kemenkomdigi">Kemenkomdigi</option>
+              <option value="PPATK">PPATK</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="adm-opid">NIP / ID Operator</label>
+            <input id="adm-opid" class="form-input" type="text" placeholder="Contoh: OJK-10145" autocomplete="off" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="adm-role">Level Otoritas</label>
+            <select id="adm-role" class="form-input">
+              <option value="Superintendent">Superintendent (Level-1)</option>
+              <option value="Operator">Operator Teknis</option>
+              <option value="Auditor">Auditor Kepatuhan</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="adm-pin">PIN Otorisasi (6 Digit)</label>
+            <input id="adm-pin" class="form-input" type="password" maxlength="6" placeholder="Contoh: 888888" autocomplete="off" />
+            <span class="form-hint">PIN ini akan digunakan untuk otorisasi mTLS pemblokiran massal.</span>
+          </div>
+
+          <button class="btn btn-primary" style="justify-content:center;margin-top:6px;" onclick="registerNewAdmin()">
+            Simpan Akun Operator
+          </button>
+        </div>
+      </div>
+
+      <!-- Registered Admins List -->
+      <div class="card" style="display:flex;flex-direction:column;height:450px;">
+        <div class="card-head">
+          <div class="card-title">
+            Daftar Operator Terdaftar (public.admin_users)
+          </div>
+        </div>
+        <div style="overflow-x:auto;flex:1;">
+          <table class="data-tbl">
+            <thead>
+              <tr>
+                <th>Nama Operator</th>
+                <th>Instansi</th>
+                <th>ID Operator</th>
+                <th>Level</th>
+                <th>Kredensial</th>
+              </tr>
+            </thead>
+            <tbody id="admins-tbody">
+              <tr><td colspan="5" style="text-align:center;padding:30px;color:var(--t3);">Memetakan akun administrator dari Supabase...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ┌─────────────────────────────────────────┐
+       │  MENU 5: DATASET MANAGER                │
+       └─────────────────────────────────────────┘ -->
+  <section id="page-dataset" class="page">
+    <div class="pg-head">
+      <div>
+        <div class="pg-eyebrow"><span class="pulse-dot"></span> Data Engineering</div>
+        <h1 class="pg-title">Dataset Manager (HI Kelompok)</h1>
+        <p class="pg-sub">Generate dan unduh dataset simulasi fraud Kelompok HI (High Intensity) dalam format CSV/TXT sesuai standar OJK.</p>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:20px;">
+
+      <!-- Generator Form -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Konfigurasi Generator Dataset</div>
+          <span class="tag tag-blue">Generate & Download</span>
+        </div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+
+            <div class="form-group">
+              <label class="form-label" for="ds-name">Nama Dataset</label>
+              <input id="ds-name" class="form-input" type="text" placeholder="Contoh: Dataset_Custom_OJK" autocomplete="off" value="Dataset_Fraud_OJK"/>
+              <span class="form-hint">Akan menjadi nama file yang diunduh.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ds-type">Tipe Dataset</label>
+              <select id="ds-type" class="form-input">
+                <option value="account">Akun (Account_Number, Bank_Name)</option>
+                <option value="trans">Transaksi (Source, Dest, Amount, Time)</option>
+                <option value="pattern">Pola (Log deteksi anomali GNN)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ds-size">Ukuran Intensitas</label>
+              <select id="ds-size" class="form-input">
+                <option value="small">Kecil (100 baris)</option>
+                <option value="medium" selected>Sedang (500 baris)</option>
+                <option value="large">Besar (1000 baris)</option>
+                <option value="custom">Custom</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ds-rows">Jumlah Baris (jika Custom)</label>
+              <input id="ds-rows" class="form-input" type="number" min="1" max="10000" placeholder="Masukkan angka..." value="500"/>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ds-min-amount">Nominal Min (Rp)</label>
+              <input id="ds-min-amount" class="form-input" type="number" placeholder="Contoh: 50000000" value="100000000"/>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ds-max-amount">Nominal Max (Rp)</label>
+              <input id="ds-max-amount" class="form-input" type="number" placeholder="Contoh: 5000000000" value="5000000000"/>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ds-bank-filter">Filter Bank (opsional, pisah koma)</label>
+              <input id="ds-bank-filter" class="form-input" type="text" placeholder="Kosongkan untuk semua bank" autocomplete="off" value=""/>
+              <span class="form-hint">Contoh: BCA, Bank Jago, BNI</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ds-format">Format Output</label>
+              <select id="ds-format" class="form-input">
+                <option value="csv">.csv (Excel / Spreadsheet)</option>
+                <option value="txt">.txt (Plaintext Log)</option>
+              </select>
+            </div>
+
+          </div>
+
+          <button class="btn btn-primary" style="margin-top:16px;justify-content:center;width:100%;padding:12px;" onclick="generateDataset()">
+            Generate & Download Dataset
+          </button>
+        </div>
+      </div>
+
+      <!-- Preset Downloads -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Dataset HI (High Intensity) — Kelompok Preset</div>
+          <span class="tag tag-amber">9 File Tersedia</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="data-tbl">
+            <thead>
+              <tr>
+                <th>Nama File</th>
+                <th>Tipe</th>
+                <th>Ukuran</th>
+                <th>Baris</th>
+                <th style="text-align:right;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono" style="color:var(--t1);">Akun_Ukuran-Besar_Intensitas-Tinggi.csv</td>
+                <td><span class="tag tag-blue">Akun</span></td>
+                <td><span class="tag tag-red">Besar</span></td>
+                <td class="mono">1.000</td>
+                <td style="text-align:right;"><button class="btn btn-ghost" style="padding:4px 10px;font-size:10px;" onclick="generatePreset('account','large','Akun_Ukuran-Besar_Intensitas-Tinggi','csv')">Download</button></td>
+              </tr>
+              <tr>
+                <td class="mono" style="color:var(--t1);">Transaksi_Ukuran-Besar_Intensitas-Tinggi.csv</td>
+                <td><span class="tag tag-green">Transaksi</span></td>
+                <td><span class="tag tag-red">Besar</span></td>
+                <td class="mono">1.000</td>
+                <td style="text-align:right;"><button class="btn btn-ghost" style="padding:4px 10px;font-size:10px;" onclick="generatePreset('trans','large','Transaksi_Ukuran-Besar_Intensitas-Tinggi','csv')">Download</button></td>
+              </tr>
+              <tr>
+                <td class="mono" style="color:var(--t1);">Pola_Ukuran-Besar_Intensitas-Tinggi.txt</td>
+                <td><span class="tag tag-amber">Pola</span></td>
+                <td><span class="tag tag-red">Besar</span></td>
+                <td class="mono">1.000</td>
+                <td style="text-align:right;"><button class="btn btn-ghost" style="padding:4px 10px;font-size:10px;" onclick="generatePreset('pattern','large','Pola_Ukuran-Besar_Intensitas-Tinggi','txt')">Download</button></td>
+              </tr>
+              <tr>
+                <td class="mono" style="color:var(--t1);">Akun_Ukuran-Sedang_Intensitas-Tinggi.csv</td>
+                <td><span class="tag tag-blue">Akun</span></td>
+                <td><span class="tag tag-amber">Sedang</span></td>
+                <td class="mono">500</td>
+                <td style="text-align:right;"><button class="btn btn-ghost" style="padding:4px 10px;font-size:10px;" onclick="generatePreset('account','medium','Akun_Ukuran-Sedang_Intensitas-Tinggi','csv')">Download</button></td>
+              </tr>
+              <tr>
+                <td class="mono" style="color:var(--t1);">Transaksi_Ukuran-Sedang_Intensitas-Tinggi.csv</td>
+                <td><span class="tag tag-green">Transaksi</span></td>
+                <td><span class="tag tag-amber">Sedang</span></td>
+                <td class="mono">500</td>
+                <td style="text-align:right;"><button class="btn btn-ghost" style="padding:4px 10px;font-size:10px;" onclick="generatePreset('trans','medium','Transaksi_Ukuran-Sedang_Intensitas-Tinggi','csv')">Download</button></td>
+              </tr>
+              <tr>
+                <td class="mono" style="color:var(--t1);">Pola_Ukuran-Sedang_Intensitas-Tinggi.txt</td>
+                <td><span class="tag tag-amber">Pola</span></td>
+                <td><span class="tag tag-amber">Sedang</span></td>
+                <td class="mono">500</td>
+                <td style="text-align:right;"><button class="btn btn-ghost" style="padding:4px 10px;font-size:10px;" onclick="generatePreset('pattern','medium','Pola_Ukuran-Sedang_Intensitas-Tinggi','txt')">Download</button></td>
+              </tr>
+              <tr>
+                <td class="mono" style="color:var(--t1);">Akun_Ukuran-Kecil_Intensitas-Tinggi.csv</td>
+                <td><span class="tag tag-blue">Akun</span></td>
+                <td><span class="tag tag-muted">Kecil</span></td>
+                <td class="mono">100</td>
+                <td style="text-align:right;"><button class="btn btn-ghost" style="padding:4px 10px;font-size:10px;" onclick="generatePreset('account','small','Akun_Ukuran-Kecil_Intensitas-Tinggi','csv')">Download</button></td>
+              </tr>
+              <tr>
+                <td class="mono" style="color:var(--t1);">Transaksi_Ukuran-Kecil_Intensitas-Tinggi.csv</td>
+                <td><span class="tag tag-green">Transaksi</span></td>
+                <td><span class="tag tag-muted">Kecil</span></td>
+                <td class="mono">100</td>
+                <td style="text-align:right;"><button class="btn btn-ghost" style="padding:4px 10px;font-size:10px;" onclick="generatePreset('trans','small','Transaksi_Ukuran-Kecil_Intensitas-Tinggi','csv')">Download</button></td>
+              </tr>
+              <tr>
+                <td class="mono" style="color:var(--t1);">Pola_Ukuran-Kecil_Intensitas-Tinggi.txt</td>
+                <td><span class="tag tag-amber">Pola</span></td>
+                <td><span class="tag tag-muted">Kecil</span></td>
+                <td class="mono">100</td>
+                <td style="text-align:right;"><button class="btn btn-ghost" style="padding:4px 10px;font-size:10px;" onclick="generatePreset('pattern','small','Pola_Ukuran-Kecil_Intensitas-Tinggi','txt')">Download</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- Live scrolling marquee footer logs -->
+<div style="background:#0f172a;color:#94a3b8;height:var(--ticker-h);position:fixed;bottom:0;left:var(--sidebar-w);right:0;z-index:90;display:flex;align-items:center;padding:0 16px;border-top:1px solid #1e293b;font-family:'JetBrains Mono',monospace;font-size:10px;overflow:hidden;">
+  <span style="color:#ef4444;font-weight:700;display:flex;align-items:center;gap:4px;margin-right:12px;flex-shrink:0;">
+    <span class="pulse-dot" style="background:#ef4444;"></span> LIVE ASYNC MONITOR:
+  </span>
+  <div class="ticker-wrap" style="flex:1;overflow:hidden;position:relative;height:100%;display:flex;align-items:center;">
+    <div class="ticker-content" id="ticker-logs" style="display:inline-block;white-space:nowrap;animation:ticker-scroll 18s linear infinite;padding-left:10%;padding-top:1px;">
+      [OJK-ENF-GNN] Memulai monitoring transaksi asinkronus mule accounts... &nbsp;·&nbsp; [BCA Gateway] Pipa API BCA berjalan normal (Latency: 41ms) &nbsp;·&nbsp; [mTLS AUTH] Handshake sertifikat OJK Otoritas berhasil dilakukan untuk sesi siber &nbsp;·&nbsp; [AI GNN ENGINE] Model klaster mendeteksi lonjakan aktivitas transaksi pada NIK 3174xxxxxxxx1002 di Bank Jago &nbsp;·&nbsp; [Kemenkomdigi] POST /api/v1/ingest-fraud siap menerima data kiriman masyarakat &nbsp;·&nbsp; [BGP ROUTE] Anomali rute ASN terdeteksi ke IP luar negeri &nbsp;·&nbsp; [SQL INJECT] Analisis payload berhasil diisolasi &nbsp;·&nbsp; [PACKET TRACE] Membaca TCP window size...
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PIN VERIFICATION MODAL OVERLAY
+     ═══════════════════════════════════════════ -->
+<div id="pin-modal" style="display:none;position:fixed;inset:0;background:rgba(15, 23, 42, 0.4);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(3px);">
+  <div class="card" style="width:340px;box-shadow:var(--s2);animation:slideUp 0.25s var(--ease);border:1px solid var(--border);">
+    <div class="card-head" style="background:#fafbfc;">
+      <div class="card-title" style="color:var(--blue);">
+        Otoritas mTLS Gateway
+      </div>
+      <button onclick="closePinModal()" style="color:var(--t3); font-weight: bold;">X</button>
+    </div>
+    <div class="card-body" style="display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center;">
+      <div style="font-size:11.5px;color:var(--t2);line-height:1.5;">
+        Perintah penegakan siber massal membutuhkan otorisasi sertifikat mTLS OJK-Level-1. Harap masukkan 6 digit PIN otoritas.
+      </div>
+      <div style="display:flex;gap:8px;margin:8px 0;" id="pin-container">
+        <input class="pin-dot form-input" type="password" maxlength="1" oninput="stepPinInput(this, 0)" style="width:36px;height:36px;text-align:center;font-size:18px;font-weight:700;" autocomplete="off" />
+        <input class="pin-dot form-input" type="password" maxlength="1" oninput="stepPinInput(this, 1)" style="width:36px;height:36px;text-align:center;font-size:18px;font-weight:700;" autocomplete="off" />
+        <input class="pin-dot form-input" type="password" maxlength="1" oninput="stepPinInput(this, 2)" style="width:36px;height:36px;text-align:center;font-size:18px;font-weight:700;" autocomplete="off" />
+        <input class="pin-dot form-input" type="password" maxlength="1" oninput="stepPinInput(this, 3)" style="width:36px;height:36px;text-align:center;font-size:18px;font-weight:700;" autocomplete="off" />
+        <input class="pin-dot form-input" type="password" maxlength="1" oninput="stepPinInput(this, 4)" style="width:36px;height:36px;text-align:center;font-size:18px;font-weight:700;" autocomplete="off" />
+        <input class="pin-dot form-input" type="password" maxlength="1" oninput="stepPinInput(this, 5)" style="width:36px;height:36px;text-align:center;font-size:18px;font-weight:700;" autocomplete="off" />
+      </div>
+      <div id="pin-error" style="color:var(--red);font-size:10px;font-weight:600;display:none;margin-top:-6px;">PIN Otoritas tidak cocok. Coba lagi.</div>
+      <div style="display:flex;gap:10px;width:100%;margin-top:4px;">
+        <button class="btn btn-ghost" style="flex:1;justify-content:center;" onclick="closePinModal()">Batal</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="confirmPin()">Otorisasi mTLS</button>
+      </div>
+      <div style="font-size:9.5px;color:var(--t3);display:flex;align-items:center;gap:4px;margin-top:2px;">
+        Sentuh sensor sidik jari perangkat OJK untuk bypass
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ticker Animation CSS Keyframes -->
+<style>
+@keyframes ticker-scroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+</style>
+
+<!-- Load Script Modules -->
+<script src="db.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
