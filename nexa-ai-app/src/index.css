@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Custom Corporate High-Contrast Colors */
+  --color-brand-primary: #0f172a; /* Deep Slate Base */
+  --color-brand-accent: #2563eb; /* Cobalt Blue */
+  --color-brand-red: #ef4444; /* Alert / Smurfing Anomaly */
+  --color-brand-green: #10b981; /* Verified / Clean Frozen Node */
+  --color-brand-yellow: #f59e0b; /* Suspected Warning Indicator */
+  --color-brand-cyan: #06b6d4; /* GNN Trace Beam */
+  
+  --animate-pulse-slow: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-dash-offset: dash-offset 1.5s linear infinite;
+  --animate-radar-ripple: radar-ripple 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes dash-offset {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+@keyframes radar-ripple {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Terminal Console Log Base Styles */
+.terminal-line {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  border-left: 2px solid transparent;
+  padding-left: 8px;
+  margin-bottom: 4px;
+}
+
+.t-info { border-color: #3b82f6; color: #93c5fd; }
+.t-success { border-color: #10b981; color: #a7f3d0; }
+.t-warning { border-color: #f59e0b; color: #fde68a; }
+.t-error { border-color: #ef4444; color: #fca5a5; }
+.t-db { border-color: #8b5cf6; color: #ddd6fe; }
+.t-ai { border-color: #06b6d4; color: #c5f2f7; }
+.t-mtls { border-color: #ec4899; color: #fbcfe8; }
+
+/* Custom Dials with Conic Gradient */
+.conic-dial {
+  background: conic-gradient(from 0deg, var(--color-brand-cyan) 0%, var(--color-brand-accent) 94.7%, #dc2626 94.7%, #334155 100%);
+}
+
+/* Interactive Card Styling */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.dark-glass-panel {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.9);
+}
+
+/* Base resets and micro animations */
+body {
+  font-family: var(--font-sans);
+  background-color: #f1f5f9;
+  color: #1e293b;
+  overflow-x: hidden;
+}
+
+.outfit-font {
+  font-family: var(--font-display);
+}
+
+.mono-font {
+  font-family: var(--font-mono);
+}
